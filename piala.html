@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selamat!</title>
+
+<style>
+
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#FFD700,#FFA500);
+    font-family:Arial,sans-serif;
+}
+
+.box{
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,.3);
+    width:350px;
+}
+
+.piala{
+    font-size:100px;
+    animation:naik 1.5s infinite alternate;
+}
+
+h1{
+    color:#ff9800;
+}
+
+p{
+    font-size:18px;
+    color:#444;
+}
+
+button{
+    margin-top:20px;
+    padding:12px 25px;
+    border:none;
+    border-radius:10px;
+    background:#ff9800;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#e68900;
+}
+
+@keyframes naik{
+    from{
+        transform:translateY(0px);
+    }
+    to{
+        transform:translateY(-15px);
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<div class="piala">🏆</div>
+
+<h1>SELAMAT!</h1>
+
+<p>Kamu berhasil menyelesaikan Memory Card Game.</p>
+
+<p>🎉 Kamu adalah pemenangnya! 🎉</p>
+
+<button onclick="window.location.href='game.html'">
+Main Lagi
+</button>
+
+</div>
+
+</body>
+</html>

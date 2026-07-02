@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memory Card Game</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#4facfe,#00c6ff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.container{
+    width:430px;
+    background:#fff;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 10px 20px rgba(0,0,0,.3);
+    text-align:center;
+}
+
+h1{
+    color:#333;
+    margin-bottom:15px;
+}
+
+.info{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:15px;
+    font-weight:bold;
+}
+
+#board{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
+
+.card{
+    height:85px;
+    background:#2563eb;
+    color:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:10px;
+    font-size:35px;
+    cursor:pointer;
+    user-select:none;
+}
+
+.card.open{
+    background:#fff;
+    color:#000;
+    border:2px solid #2563eb;
+}
+
+button{
+    margin-top:20px;
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>🧠 Memory Card Game</h1>
+
+<div class="info">
+<span>⏱️ Waktu: <span id="time">0</span> detik</span>
+<span>👣 Langkah: <span id="moves">0</span></span>
+</div>
+
+<div id="board"></div>
+
+<button onclick="startGame()">🔄 Main Lagi</button>
+
+</div>
+
+<script>
+
+const emojis=[
+"🍎","🍎",
+"🍌","🍌",
+"🍇","🍇",
+"🍉","🍉",
+"🍒","🍒",
+"🥝","🥝",
+"🍋","🍋",
+"🥥","🥥"
+];
+
+let first=null;
+let second=null;
+let lock=false;
+let moves=0;
+let matched=0;
+let time=0;
+let timer;
+
+const board=document.getElementById("board");
+
+function shuffle(arr){
+    for(let i=arr.length-1;i>0;i--){
+        let j=Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr;
+}
+
+function startGame(){
+
+clearInterval(timer);
+
+board.innerHTML="";
+moves=0;
+matched=0;
+time=0;
+
+document.getElementById("moves").innerHTML=0;
+document.getElementById("time").innerHTML=0;
+
+first=null;
+second=null;
+lock=false;
+
+timer=setInterval(()=>{
+time++;
+document.getElementById("time").innerHTML=time;
+},1000);
+
+shuffle([...emojis]).forEach(icon=>{
+
+let card=document.createElement("div");
+card.className="card";
+card.dataset.icon=icon;
+card.innerHTML="?";
+
+card.onclick=function(){
+
+if(lock)return;
+if(card.classList.contains("open"))return;
+
+card.classList.add("open");
+card.innerHTML=icon;
+
+if(first==null){
+first=card;
+return;
+}
+
+second=card;
+moves++;
+document.getElementById("moves").innerHTML=moves;
+
+if(first.dataset.icon==second.dataset.icon){
+
+matched++;
+
+first=null;
+second=null;
+
+if (matched == 8) {
+
+    clearInterval(timer);
+
+    setTimeout(function () {
+
+        window.location.href = "piala.html";
+
+    }, 1000);
+
+}
+
+}else{
+
+lock=true;
+
+setTimeout(()=>{
+
+first.classList.remove("open");
+second.classList.remove("open");
+
+first.innerHTML="?";
+second.innerHTML="?";
+
+first=null;
+second=null;
+lock=false;
+
+},800);
+
+}
+
+}
+
+board.appendChild(card);
+
+});
+
+}
+
+startGame();
+
+</script>
+
+</body>
+</html>
